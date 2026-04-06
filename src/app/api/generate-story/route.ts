@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { generateStory } from "@/lib/generate";
 import { insertStory } from "@/lib/db";
 
@@ -21,6 +22,11 @@ export async function GET(req: NextRequest) {
 
     const storyData = await generateStory(genre);
     const saved = await insertStory(storyData);
+
+    // Revalidate pages so the new story appears immediately
+    revalidatePath("/");
+    revalidatePath(`/genre/${saved.genre}`);
+    revalidatePath(`/story/${saved.id}`);
 
     return NextResponse.json({
       success: true,

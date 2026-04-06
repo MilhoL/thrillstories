@@ -12,7 +12,7 @@ export default function StoryBody({
     <div className="prose-story">
       {content.map((block, i) => (
         <div key={i}>
-          <p>{block.paragraph}</p>
+          <p className={i === 0 ? "drop-cap" : ""}>{block.paragraph}</p>
           {/* Insert mid-article ad after the midpoint paragraph */}
           {i === midIndex && <AdSlot position="mid" />}
         </div>
